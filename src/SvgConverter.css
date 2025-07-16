@@ -1,0 +1,352 @@
+/* Global styles to prevent scrolling */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.svg-converter {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(10px, 2.5vw, 18px);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.96);
+  transform-origin: center top;
+  box-sizing: border-box;
+}
+
+.converter-header {
+  text-align: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.converter-header h1 {
+  color: #1f2937;
+  margin-bottom: 6px;
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 700;
+}
+
+.converter-description {
+  color: #6b7280;
+  font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+  margin: 0;
+}
+
+.svg-converter h2 {
+  color: #374151;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.svg-converter h3 {
+  color: #374151;
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.converter-layout {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex: 1;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .converter-layout {
+    justify-content: center;
+  }
+  
+  .left-panel {
+    max-width: 100%;
+  }
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.5vw, 14px);
+  max-width: 500px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.error-message {
+  background-color: #fef2f2;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.upload-section,
+.settings-section,
+.action-section,
+.preview-section {
+  background: white;
+  padding: clamp(10px, 2.5vw, 16px);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.upload-section {
+  flex-shrink: 0;
+}
+
+.settings-section {
+  flex-shrink: 0;
+}
+
+.action-section {
+  flex-shrink: 0;
+}
+
+.preview-section {
+  height: 100%;
+  min-height: 500px;
+}
+
+.format-and-dpi {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.format-group,
+.dpi-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.format-options-horizontal,
+.dpi-options-horizontal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 8px;
+}
+
+.format-option-compact,
+.dpi-option-compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  min-height: 42px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .format-options-horizontal,
+  .dpi-options-horizontal {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .format-option-compact,
+  .dpi-option-compact {
+    padding: 10px 8px;
+    font-size: 13px;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 400px) {
+  .format-options-horizontal,
+  .dpi-options-horizontal {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  
+  .format-option-compact,
+  .dpi-option-compact {
+    padding: 14px 16px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+}
+
+.format-option-compact:hover,
+.dpi-option-compact:hover {
+  border-color: #3b82f6;
+  background: #f8fafc;
+}
+
+.format-option-compact.selected,
+.dpi-option-compact.selected {
+  border-color: #3b82f6;
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.format-option-compact input[type="radio"],
+.dpi-option-compact input[type="radio"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.quality-section {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.quality-section label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.quality-section input[type="range"] {
+  width: 100%;
+}
+
+.preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 450px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 2px dashed #d1d5db;
+  padding: 16px;
+}
+
+.svg-preview {
+  max-width: 100%;
+  max-height: 400px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.svg-preview svg {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.convert-section {
+  text-align: center;
+}
+
+.convert-btn {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  width: 100%;
+  min-height: 50px;
+}
+
+.convert-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.convert-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .svg-converter {
+    padding: 16px;
+  }
+  
+  .converter-header h1 {
+    font-size: 2rem;
+  }
+  
+  .upload-section,
+  .format-section,
+  .dimensions-section,
+  .preview-section,
+  .convert-section {
+    padding: 16px;
+  }
+  
+  .convert-btn {
+    width: 100%;
+    padding: 16px;
+  }
+}
