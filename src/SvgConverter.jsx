@@ -9,6 +9,7 @@ function SvgConverter() {
   const [svgContent, setSvgContent] = useState('')
   const [outputFormat, setOutputFormat] = useState('png')
   const [dpi, setDpi] = useState(72)
+  const [transparentBackground, setTransparentBackground] = useState(false)
   const [isConverting, setIsConverting] = useState(false)
   const [progress, setProgress] = useState(0)
   const [error, setError] = useState(null)
@@ -47,6 +48,14 @@ function SvgConverter() {
 
   const handleFormatChange = (format) => {
     setOutputFormat(format)
+    // Reset transparent background when switching to JPEG
+    if (format === 'jpeg') {
+      setTransparentBackground(false)
+    }
+  }
+
+  const handleTransparentBackgroundChange = (checked) => {
+    setTransparentBackground(checked)
   }
 
   const convertImage = async () => {
@@ -66,7 +75,8 @@ function SvgConverter() {
         svgContent,
         outputFormat,
         dpi,
-        1.0
+        1.0,
+        transparentBackground
       )
       
       setProgress(75)
@@ -99,7 +109,18 @@ function SvgConverter() {
   return (
     <div className="svg-converter">
       <div className="converter-header">
-        <h1>🎨 SVG Converter</h1>
+        <div className="header-top">
+          <h1>🎨 SVG Converter</h1>
+          <a 
+            href="https://github.com/yondddd/my-react-app" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="github-link"
+          >
+            <span className="github-icon">⭐</span>
+            View on GitHub
+          </a>
+        </div>
         <p className="converter-description">
           Convert your SVG files to PNG, JPG, or TIFF formats with DPI selection
         </p>
@@ -164,37 +185,65 @@ function SvgConverter() {
                 <div className="dpi-options-horizontal">
                   <label className={`dpi-option-compact ${dpi === 72 ? 'selected' : ''}`}>
                     <input
-                      type="radio"
-                      value="72"
-                      checked={dpi === 72}
-                      onChange={(e) => handleDpiChange(Number(e.target.value))}
-                      disabled={isConverting}
+                        type="radio"
+                        value="72"
+                        checked={dpi === 72}
+                        onChange={(e) => handleDpiChange(Number(e.target.value))}
+                        disabled={isConverting}
                     />
                     <span>72</span>
                   </label>
                   <label className={`dpi-option-compact ${dpi === 150 ? 'selected' : ''}`}>
                     <input
-                      type="radio"
-                      value="150"
-                      checked={dpi === 150}
-                      onChange={(e) => handleDpiChange(Number(e.target.value))}
-                      disabled={isConverting}
+                        type="radio"
+                        value="150"
+                        checked={dpi === 150}
+                        onChange={(e) => handleDpiChange(Number(e.target.value))}
+                        disabled={isConverting}
                     />
                     <span>150</span>
                   </label>
                   <label className={`dpi-option-compact ${dpi === 300 ? 'selected' : ''}`}>
                     <input
-                      type="radio"
-                      value="300"
-                      checked={dpi === 300}
-                      onChange={(e) => handleDpiChange(Number(e.target.value))}
-                      disabled={isConverting}
+                        type="radio"
+                        value="300"
+                        checked={dpi === 300}
+                        onChange={(e) => handleDpiChange(Number(e.target.value))}
+                        disabled={isConverting}
                     />
                     <span>300</span>
+                  </label>
+                  <label className={`dpi-option-compact ${dpi === 600 ? 'selected' : ''}`}>
+                    <input
+                        type="radio"
+                        value="600"
+                        checked={dpi === 600}
+                        onChange={(e) => handleDpiChange(Number(e.target.value))}
+                        disabled={isConverting}
+                    />
+                    <span>600</span>
                   </label>
                 </div>
               </div>
             </div>
+
+            {/* Transparent Background Option */}
+            {(outputFormat === 'png' || outputFormat === 'tiff') && (
+                <div className="transparency-group">
+                  <h3>🌐 Background</h3>
+                  <label className="transparency-toggle">
+                    <input
+                        type="checkbox"
+                        checked={transparentBackground}
+                        onChange={(e) => handleTransparentBackgroundChange(e.target.checked)}
+                    disabled={isConverting}
+                  />
+                  <span className="toggle-text">
+                    {transparentBackground ? 'Transparent' : 'White Background'}
+                  </span>
+                </label>
+              </div>
+            )}
             
           </div>
 
