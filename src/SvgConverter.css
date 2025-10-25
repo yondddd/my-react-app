@@ -132,6 +132,12 @@ html, body {
   gap: 6px;
 }
 
+.section-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
 .converter-layout {
   display: flex;
   justify-content: center;

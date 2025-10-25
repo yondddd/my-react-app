@@ -1,3 +1,4 @@
+import iconDpi from '../assets/icon-dpi.svg'
 import './DpiSelector.css'
 
 const DPI_OPTIONS = [
@@ -9,7 +10,10 @@ const DPI_OPTIONS = [
 function DpiSelector({ dpi, onDpiChange, disabled = false }) {
   return (
     <div className="dpi-selector">
-      <h3>📐 Resolution (DPI)</h3>
+      <h3>
+        <img src={iconDpi} alt="" aria-hidden="true" className="section-icon" />
+        Resolution (DPI)
+      </h3>
       <div className="dpi-options">
         {DPI_OPTIONS.map((option) => (
           <label 

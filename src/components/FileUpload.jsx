@@ -21,12 +21,12 @@ function FileUpload({ onFileSelect, accept = ".svg,image/svg+xml", disabled = fa
   const handleDrop = (e) => {
     e.preventDefault()
     setIsDragOver(false)
-    
+
     if (disabled) return
-    
+
     const files = Array.from(e.dataTransfer.files)
     const file = files[0]
-    
+
     if (file && file.type === 'image/svg+xml') {
       setSelectedFile(file)
       onFileSelect(file)
@@ -57,7 +57,7 @@ function FileUpload({ onFileSelect, accept = ".svg,image/svg+xml", disabled = fa
   }
 
   return (
-    <div 
+    <div
       className={`file-upload ${isDragOver ? 'drag-over' : ''} ${disabled ? 'disabled' : ''} ${selectedFile ? 'has-file' : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -72,7 +72,7 @@ function FileUpload({ onFileSelect, accept = ".svg,image/svg+xml", disabled = fa
         disabled={disabled}
         style={{ display: 'none' }}
       />
-      
+
       {selectedFile ? (
         <div className="file-selected">
           <div className="file-info">
@@ -95,9 +95,6 @@ function FileUpload({ onFileSelect, accept = ".svg,image/svg+xml", disabled = fa
           <div className="upload-icon">📁</div>
           <div className="upload-text">
             <strong>Click to browse</strong> or drag and drop your SVG file here
-          </div>
-          <div className="upload-hint">
-            Supported format: SVG files only
           </div>
         </div>
       )}

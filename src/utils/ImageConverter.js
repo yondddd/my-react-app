@@ -247,8 +247,7 @@ export class ImageConverter {
         const { width, height } = canvas;
         const rgbaData = ctx.getImageData(0, 0, width, height).data;
         
-        // Check if canvas actually has transparency
-        const hasTransparency = transparentBackground && this._hasTransparency(rgbaData);
+        const hasTransparency = transparentBackground;
         
         const pixelData = this._rgbaToRgb(rgbaData, hasTransparency);
         const compressedData = pako.deflate(pixelData);
@@ -365,7 +364,7 @@ export class ImageConverter {
     }
 
     /**
-     * [OPTIMIZED] Converts RGBA pixel data to RGB, optionally preserving transparency or blending with white background.
+     * [OPTIMIZED] Converts RGBA pixel data, returning premultiplied RGBA when preserving transparency or RGB blended against white.
      * @param {Uint8ClampedArray} rgbaData - The source RGBA pixel data.
      * @param {boolean} [preserveTransparency=false] - Whether to preserve transparency (for TIFF with alpha).
      * @returns {Uint8Array} The resulting RGB or RGBA pixel data.
@@ -373,8 +372,15 @@ export class ImageConverter {
      */
     static _rgbaToRgb(rgbaData, preserveTransparency = false) {
         if (preserveTransparency) {
-            // Return RGBA data as-is for formats that support transparency
-            return new Uint8Array(rgbaData);
+            const rgbaResult = new Uint8Array(rgbaData.length);
+            for (let i = 0; i < rgbaData.length; i += 4) {
+                const alpha = rgbaData[i + 3] / 255;
+                rgbaResult[i] = Math.round(rgbaData[i] * alpha);
+                rgbaResult[i + 1] = Math.round(rgbaData[i + 1] * alpha);
+                rgbaResult[i + 2] = Math.round(rgbaData[i + 2] * alpha);
+                rgbaResult[i + 3] = rgbaData[i + 3];
+            }
+            return rgbaResult;
         }
         
         const rgbData = new Uint8Array((rgbaData.length / 4) * 3);
@@ -443,23 +449,6 @@ export class ImageConverter {
 
         return result;
     }
-
-
-    /**
-     * Checks if RGBA data contains any transparency (alpha < 255).
-     * @param {Uint8ClampedArray} rgbaData - The RGBA pixel data to check.
-     * @returns {boolean} True if transparency is found.
-     * @private
-     */
-    static _hasTransparency(rgbaData) {
-        for (let i = 3; i < rgbaData.length; i += 4) {
-            if (rgbaData[i] < 255) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     /**
      * Standard CRC32 checksum calculation for PNG chunks.
      * @param {Uint8Array} data - Data to calculate CRC for (chunk type + chunk data).

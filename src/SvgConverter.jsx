@@ -2,6 +2,9 @@ import { useState } from 'react'
 import ImageConverter from './utils/ImageConverter'
 import FileUpload from './components/FileUpload'
 import ProgressBar from './components/ProgressBar'
+import iconFormat from './assets/icon-format.svg'
+import iconDpi from './assets/icon-dpi.svg'
+import iconBackground from './assets/icon-background.svg'
 import './SvgConverter.css'
 
 function SvgConverter() {
@@ -29,7 +32,7 @@ function SvgConverter() {
 
     setSvgFile(file)
     setError(null)
-    
+
     const reader = new FileReader()
     reader.onload = (e) => {
       const content = e.target.result
@@ -67,10 +70,10 @@ function SvgConverter() {
     setIsConverting(true)
     setProgress(0)
     setError(null)
-    
+
     try {
       setProgress(25)
-      
+
       const result = await ImageConverter.convertSvg(
         svgContent,
         outputFormat,
@@ -78,24 +81,24 @@ function SvgConverter() {
         1.0,
         transparentBackground
       )
-      
+
       setProgress(75)
-      
+
       setProgress(100)
-      
+
       const filename = svgFile.name.replace('.svg', '')
       const extension = outputFormat === 'jpeg' ? 'jpg' : outputFormat
-      
+
       ImageConverter.downloadFile(
         result.data,
         `${filename}.${extension}`,
         result.mimeType
       )
-      
+
       setTimeout(() => {
         setProgress(0)
       }, 2000)
-      
+
     } catch (error) {
       console.error('Conversion failed:', error)
       setError(`Conversion failed: ${error.message}`)
@@ -111,15 +114,6 @@ function SvgConverter() {
       <div className="converter-header">
         <div className="header-top">
           <h1>🎨 SVG Converter</h1>
-          <a 
-            href="https://github.com/yondddd/my-react-app" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="github-link"
-          >
-            <span className="github-icon">⭐</span>
-            View on GitHub
-          </a>
         </div>
         <p className="converter-description">
           Convert your SVG files to PNG, JPG, or TIFF formats with DPI selection
@@ -145,7 +139,10 @@ function SvgConverter() {
           <div className="settings-section">
             <div className="format-and-dpi">
               <div className="format-group">
-                <h3>🎯 Format</h3>
+                <h3>
+                  <img src={iconFormat} alt="" aria-hidden="true" className="section-icon" />
+                  Format
+                </h3>
                 <div className="format-options-horizontal">
                   <label className={`format-option-compact ${outputFormat === 'png' ? 'selected' : ''}`}>
                     <input
@@ -181,7 +178,10 @@ function SvgConverter() {
               </div>
 
               <div className="dpi-group">
-                <h3>📐 DPI</h3>
+                <h3>
+                  <img src={iconDpi} alt="" aria-hidden="true" className="section-icon" />
+                  DPI
+                </h3>
                 <div className="dpi-options-horizontal">
                   <label className={`dpi-option-compact ${dpi === 72 ? 'selected' : ''}`}>
                     <input
@@ -230,7 +230,10 @@ function SvgConverter() {
             {/* Transparent Background Option */}
             {(outputFormat === 'png' || outputFormat === 'tiff') && (
                 <div className="transparency-group">
-                  <h3>🌐 Background</h3>
+                  <h3>
+                    <img src={iconBackground} alt="" aria-hidden="true" className="section-icon" />
+                    Background
+                  </h3>
                   <label className="transparency-toggle">
                     <input
                         type="checkbox"
@@ -244,7 +247,7 @@ function SvgConverter() {
                 </label>
               </div>
             )}
-            
+
           </div>
 
           <div className="action-section">
